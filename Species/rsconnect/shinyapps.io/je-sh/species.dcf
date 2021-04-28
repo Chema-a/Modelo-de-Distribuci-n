@@ -1,0 +1,11 @@
+name: species
+title:
+username:
+account: je-sh
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3976031
+bundleId: 4527572
+url: https://je-sh.shinyapps.io/species/
+when: 1619570812.46973
+lastSyncTime: 1619570812.46973

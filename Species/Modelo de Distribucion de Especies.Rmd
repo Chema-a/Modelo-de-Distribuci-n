@@ -6,7 +6,18 @@ output:
     df_print: paged
   html_notebook: default
 ---
+```{r}
+install.packages('rsconnect')
+```
 
+```{r}
+rsconnect::setAccountInfo(name='je-sh', token='ECB646B152BD92630EE0DDA629AAE6B7', secret='secret')
+```
+
+```{r}
+library(rsconnect)
+deployApp()
+```
 First, we'll download up all the important R packages
 ```{r}
 install.packages('dismo')
@@ -26,7 +37,7 @@ library(rJava)
 First download on species points contained within mexico. Look up and then insert your invasive species scientific name.
 Wesearch for occurrence data on website [GBIF](https://www.gbif.org)
 ```{r}
-your_species_data <- occ_search(scientificName = "Ambystoma mexicanum", 
+  your_species_data <- occ_search(scientificName = "Ambystoma mexicanum", 
                           country = 'MX', fields=c('name','country','countryCode','stateProvince','year','decimalLatitude','decimalLongitude'), limit = 500, return ='data') #Limite de informacion
 ```
 Lets make a quick map of the 500 points we downloaded for the species in Mexico.

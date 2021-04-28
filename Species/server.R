@@ -1,13 +1,17 @@
 function(input, output, session) {
 
     output$selected_species <- renderText({ 
-        paste("You have selected", input$species)
+        paste("You have selected: ", input$species)
     })
+    
     library(dismo)
     library(rgbif)
     library(maptools)
     library(rJava)
     observeEvent(input$do, {
+        
+        
+        
         output$plot1 <- renderPlot({
             data("wrld_simpl")
             your_species_data <<- occ_search(scientificName = input$species, 

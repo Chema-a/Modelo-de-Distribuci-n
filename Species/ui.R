@@ -1,6 +1,8 @@
 # k-means only works with numerical variables,
 # so don't give the user the option to select
 # a categorical variable
+
+#Hoja de referencia   https://www.rstudio.com/wp-content/uploads/2015/03/shiny-spanish.pdf
 shinyUI(fluidPage(
     
     pageWithSidebar(
@@ -17,38 +19,35 @@ shinyUI(fluidPage(
         mainPanel(
             #titlePanel("Presiona el boton cada vez que cambies de especie"),
             h4(textOutput('selected_species')),
-            
-            
-            
         )
         
     ),
     
     tabsetPanel(
         tabPanel(
-            titlePanel("MDE"),
+            titlePanel("Presencia"),
             plotOutput('plot1'),
             br(),
-            br(),
+            br()
         ),
         tabPanel(
-            titlePanel("2"),
+            titlePanel("CLIMA"),
             plotOutput('plot2'),
             br(),
-            br(),
+            br()
         ),
         tabPanel(
-            titlePanel("3"),
+            titlePanel("VARIABLE DE CONTRIBUCION"),
             plotOutput('plot3'),
             br(),
-            br(),
+            br()
         ),
         tabPanel(
-            titlePanel("4"),
+            titlePanel("MD"),
             plotOutput('plot4'), 
             br(),
-            br(),
+            br()
         )
-    ),
+    )
     
 ))

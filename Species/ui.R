@@ -1,54 +1,63 @@
 # k-means only works with numerical variables,
 # so don't give the user the option to select
 # a categorical variable
+library(shinythemes)
+library(leaflet)
+#Hoja de referencia   https://www.rstudio.com/wp-content/uploads/2015/03/shiny-spanish.pdf
 shinyUI(fluidPage(
     
-    pageWithSidebar(
-        headerPanel('Modelo de Distribucion de Especies'),
-        sidebarPanel(
-            textInput("species", h3("Nombre cientifico de especie"), 
-                      value = ""),  
-            numericInput("occ_limit", h3("Limite de Ocurrencia"),value = 20),
-            br(),
-            actionButton("do", "Generar modelo"),
-            align = "center"
-        ),
-        
-        mainPanel(
-            #titlePanel("Presiona el boton cada vez que cambies de especie"),
-            h4(textOutput('selected_species')),
-            
-            
-            
-        )
-        
-    ),
+    theme = shinytheme("flatly"),
+    # set the height of a #map object with CSS
+    tags$style(type = "text/css", "#map {height: calc(100vh - 10px) !important;}"),
+    #conditionalPanel(condition="input.ts_plot_type=='Mapa Principal'",
+                     leafletOutput("map")
+    ,
     
-    tabsetPanel(
-        tabPanel(
-            titlePanel("MDE"),
-            plotOutput('plot1'),
-            br(),
-            br(),
+    #add some panels above the map
+    absolutePanel(
+        top = 0, right = "30%", style = "z-index:500; text-align: center;",
+        tags$h2("Modelo de Distribucion de Especies")
+    ),
+    absolutePanel(
+        top = 70, right = 30, style = "z-index:500; text-align: right;",
+        radioButtons("ts_plot_type","MAPAS:", choices=c(
+            "Mapa Principal", "Clima", "Variable de Contribuacion", "INFO"), inline=F)
+    ),
+    absolutePanel(
+        top = 60, left = 20, draggable = FALSE, width = "20%", 
+            style = "z-index:1000; min-width: 300px;",
+        textInput("species", h3("Nombre cientifico de especie"), 
+                  value = "canis lupus baileyi", placeholder="Amystoma..."),  
+        numericInput("occ_limit", h3("Limite de Ocurrencia"),value = 20),
+        br(),
+        actionButton("do", "Generar modelo"),
+        br(),
+        br()
+    ),
+    absolutePanel(
+        bottom = 0, left = 0, draggable = FALSE, width = "20%", style = "z-index:5; min-width: 300px;",
+        plotOutput("plot5")
+    ),
+    absolutePanel(
+        bottom = 30, left = "20%", draggable = FALSE, width = "40%", style = "z-index:50; min-width: 300px;",
+        tags$h4 (textOutput("tittle")),
+        textOutput("text1")
+        
+    ),
+    absolutePanel(
+        top = "25%", left = "25%", width = "100%",style = "z-index:500; min-width: 300px;",
+        conditionalPanel(condition="input.ts_plot_type=='Clima'",
+                         plotOutput("plot2")
         ),
-        tabPanel(
-            titlePanel("2"),
-            plotOutput('plot2'),
-            br(),
-            br(),
-        ),
-        tabPanel(
-            titlePanel("3"),
-            plotOutput('plot3'),
-            br(),
-            br(),
-        ),
-        tabPanel(
-            titlePanel("4"),
-            plotOutput('plot4'), 
-            br(),
-            br(),
+        conditionalPanel(condition="input.ts_plot_type=='Variable de Contribucion'",
+                         plotOutput("plot3")
         )
     ),
+    absolutePanel(
+        top = "25%", left = "25%", width = "100%",style = "z-index:500; min-width: 300px;text-align: right;",
+        conditionalPanel(condition="input.ts_plot_type=='INFO'",
+                         imageOutput("info")
+        )
+    )
     
 ))

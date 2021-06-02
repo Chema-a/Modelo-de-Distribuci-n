@@ -6,18 +6,34 @@ output:
     df_print: paged
   html_notebook: default
 ---
+<<<<<<< HEAD
+To create a shiny web page, it is necessary to install the complement
 ```{r}
 install.packages('rsconnect')
 ```
-
+On secret it is necessary to put the secret key from shiny
 ```{r}
 rsconnect::setAccountInfo(name='je-sh', token='ECB646B152BD92630EE0DDA629AAE6B7', secret='secret')
 ```
-
+And it upload the page
+=======
+```{r}
+install.packages('rsconnect')
+```
+Aqui se pone el token de la pagina de shiny
+```{r}
+rsconnect::setAccountInfo(name='je-sh', token='ECB646B152BD92630EE0DDA629AAE6B7', secret='secret')
+```
+conecta y sube la pagina a shiny
+>>>>>>> a37be8544c5d8e187c16f814cd4612a12e14f31f
 ```{r}
 library(rsconnect)
 deployApp()
 ```
+<<<<<<< HEAD
+-----------------------------------------------------
+=======
+>>>>>>> a37be8544c5d8e187c16f814cd4612a12e14f31f
 First, we'll download up all the important R packages
 ```{r}
 install.packages('dismo')
@@ -26,7 +42,6 @@ install.packages('maptools')
 install.packages('rJava')
 
 ```
-
 Then, we'll load up all the packages
 ```{r}
 library(dismo)
@@ -37,16 +52,25 @@ library(rJava)
 First download on species points contained within mexico. Look up and then insert your invasive species scientific name.
 Wesearch for occurrence data on website [GBIF](https://www.gbif.org)
 ```{r}
+<<<<<<< HEAD
+your_species_data <- occ_search(scientificName = "Ambystoma mexicanum", 
+                          country = 'MX', fields=c('name','country','countryCode','stateProvince','year','decimalLatitude','decimalLongitude'), limit = 20, return ='data') #Limite de informacion
+=======
   your_species_data <- occ_search(scientificName = "Ambystoma mexicanum", 
                           country = 'MX', fields=c('name','country','countryCode','stateProvince','year','decimalLatitude','decimalLongitude'), limit = 500, return ='data') #Limite de informacion
+>>>>>>> a37be8544c5d8e187c16f814cd4612a12e14f31f
 ```
 Lets make a quick map of the 500 points we downloaded for the species in Mexico.
 ```{r}
-data("wrld_simpl")
+require(leaflet)
+
 xlim <- c(-129,-79) # this tells us to focus on mexico only
 ylim <- c(15,35) # this tells us to focus on mexico only
-plot(wrld_simpl,xlim=xlim,ylim=ylim) # make a zoomed-in map of mexico
-points(your_species_data$data$decimalLongitude,your_species_data$data$decimalLatitude, col='purple')
+
+m <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=your_species_data$data$decimalLongitude, lat=your_species_data$data$decimalLatitude, popup="The birthplace of R")
+m
 ```
 ### Extracting data
 
@@ -110,8 +134,14 @@ e
 px <- predict(predictors_cropped_to_mexico, xm, ext=extent_of_mexico_map, progress='')
 par(mfrow=c(1,2))
 plot(px, main='Canis latrans')
-tr <- threshold(e, 'spec_sens')
-plot(px > tr, main='presence/absence')
-plot(wrld_simpl, add = TRUE, border = "blue")
+require(leaflet)
+require(raster)
+require(rgdal)
+r <- px
+pal <- colorNumeric(c("#038247", "#99a10b", "#992806"), values(r), na.color = "transparent")
 
+leaflet() %>% addTiles() %>%
+  addRasterImage(r, colors = pal, opacity = 0.6) %>%
+  addLegend(pal = pal, values = values(r),
+    title = "Surface temp")
 ```

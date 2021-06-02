@@ -6,7 +6,6 @@ output:
     df_print: paged
   html_notebook: default
 ---
-<<<<<<< HEAD
 To create a shiny web page, it is necessary to install the complement
 ```{r}
 install.packages('rsconnect')
@@ -16,30 +15,27 @@ On secret it is necessary to put the secret key from shiny
 rsconnect::setAccountInfo(name='je-sh', token='ECB646B152BD92630EE0DDA629AAE6B7', secret='secret')
 ```
 And it upload the page
-=======
-```{r}
-install.packages('rsconnect')
-```
-Aqui se pone el token de la pagina de shiny
-```{r}
-rsconnect::setAccountInfo(name='je-sh', token='ECB646B152BD92630EE0DDA629AAE6B7', secret='secret')
-```
-conecta y sube la pagina a shiny
->>>>>>> a37be8544c5d8e187c16f814cd4612a12e14f31f
 ```{r}
 library(rsconnect)
 deployApp()
 ```
-<<<<<<< HEAD
------------------------------------------------------
-=======
->>>>>>> a37be8544c5d8e187c16f814cd4612a12e14f31f
+
 First, we'll download up all the important R packages
 ```{r}
 install.packages('dismo')
 install.packages('rgbif')
 install.packages('maptools')
 install.packages('rJava')
+#install.package('rvest')
+install.packages('imager')
+install.packages('magick')
+
+```
+```{r}
+install.packages('leaflet')
+install.packages('raster')
+install.packages('rgdal')
+
 
 ```
 Then, we'll load up all the packages
@@ -48,17 +44,16 @@ library(dismo)
 library(rgbif)
 library(maptools)
 library(rJava)
+ library("rvest")
+              library("imager")
+              library("magick")
 ```
 First download on species points contained within mexico. Look up and then insert your invasive species scientific name.
 Wesearch for occurrence data on website [GBIF](https://www.gbif.org)
 ```{r}
-<<<<<<< HEAD
-your_species_data <- occ_search(scientificName = "Ambystoma mexicanum", 
-                          country = 'MX', fields=c('name','country','countryCode','stateProvince','year','decimalLatitude','decimalLongitude'), limit = 20, return ='data') #Limite de informacion
-=======
+
   your_species_data <- occ_search(scientificName = "Ambystoma mexicanum", 
                           country = 'MX', fields=c('name','country','countryCode','stateProvince','year','decimalLatitude','decimalLongitude'), limit = 500, return ='data') #Limite de informacion
->>>>>>> a37be8544c5d8e187c16f814cd4612a12e14f31f
 ```
 Lets make a quick map of the 500 points we downloaded for the species in Mexico.
 ```{r}

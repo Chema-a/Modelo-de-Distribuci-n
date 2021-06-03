@@ -48,11 +48,10 @@ function(input, output, session) {
       
       searcher = gsub(" ", "", name)
       link = gsub(" ", "",paste("https://es.wikipedia.org/wiki/",tolower(searcher),"")) 
-      print(link)
       page <- read_html(paste(link))
       node_title<-page%>%
         html_nodes(xpath='//*[@id="firstHeading"]')%>%html_text()
-      print(input$select)
+      #print(input$select)
       output$tittle <- renderText(node_title)
       
       withProgress(
@@ -126,8 +125,8 @@ function(input, output, session) {
             #**y aniadir        
             output$map <- renderLeaflet({           basemap        })
             
-            output$plot2=renderPlot({plot(predictors_cropped_to_mexico)},bg="white")
-            output$plot3=renderPlot({plot(xm)})
+            output$plot2=renderPlot({plot(predictors_cropped_to_mexico)},  bg ='transparent')
+            output$plot3=renderPlot({plot(xm)}, bg ='transparent')
             
             incProgress(1/5)
             #-----------Imagen
@@ -137,7 +136,7 @@ function(input, output, session) {
               library("magick")
               searcher = gsub(" ", "", input$species)
               link = gsub(" ", "",paste("https://www.google.com/search?site=&tbm=isch&q=",searcher,"")) 
-              print(link)
+              #print(link)
               forecasts <- read_html(paste(link)) %>% html_nodes("img") %>% html_attr("src")
               specie_image <- image_read(forecasts[[3]])
               
@@ -156,19 +155,17 @@ function(input, output, session) {
               
               searcher = gsub(" ", "",name )
               link = gsub(" ", "",paste("https://es.wikipedia.org/wiki/",tolower(searcher),"")) 
-              print(link)
               page <- read_html(paste(link))
               nodes<-page%>%
                 html_nodes(xpath='//*[@id="mw-content-text"]/div[1]/p[1]')%>%html_text()
-              #print(nodes)
+              
               output$text1 <- renderText({nodes})
               
+              #print(nodes)
               info_node<-page%>%
                 html_nodes(xpath='//*[@id="mw-content-text"]/div[1]/table[1]/tbody')%>%htmlOutput()
-              print(info_node)
               output$info <- renderImage({info_node})
-              print(renderImage({info_node}))
-              
+
             }, 
             error = function(e) {
               showModal(modalDialog(title = "Lo lamentamos", 
